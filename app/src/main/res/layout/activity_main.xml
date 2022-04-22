@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+>
+
+    <!--<TextView-->
+    <!--        android:text="hi,text"-->
+    <!--        android:layout_width="200dp"-->
+    <!--        android:layout_height="150dp"/>-->
+
+    <!--<Button-->
+    <!--        android:text="hi,button"-->
+    <!--        android:layout_width="200dp"-->
+    <!--        android:layout_height="150dp"/>-->
+
+    <com.hihusky.lib.widget.CustomTextView
+            android:text="hello"
+            android:textSize="100sp"
+            android:layout_gravity="center"
+            android:layout_width="600dp"
+            android:layout_height="200dp"
+            app:stringContent="This is string content"
+            app:integerContent="0"
+    />
+
+    <!--<com.hihusky.lib.widget.TagViewGroup android:layout_width="match_parent" android:layout_height="match_parent">-->
+    <!--    <com.hihusky.lib.widget.TagView-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"/>-->
+    <!--</com.hihusky.lib.widget.TagViewGroup>-->
+
+    <!--<com.hihusky.lib.widget.TagView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"/>-->
+</LinearLayout>
