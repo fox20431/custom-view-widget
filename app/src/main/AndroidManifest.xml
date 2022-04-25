@@ -8,7 +8,7 @@
             android:theme="@style/Theme.CustomViewWidget"
     >
         <activity
-                android:name="com.hihusky.app.MainActivity"
+                android:name=".MainActivity"
                 android:exported="true"
         >
             <intent-filter>
