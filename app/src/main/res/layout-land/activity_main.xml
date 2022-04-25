@@ -2,10 +2,10 @@
 <com.hihusky.lib.widget.CustomLinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="600dp"
+        android:layout_width="1200dp"
         android:layout_height="1920dp"
         android:orientation="vertical"
-        android:background="#f00"
+        android:background="#fff"
 >
     <com.hihusky.lib.widget.CustomTextView
             android:id="@+id/custom_text_view"
@@ -15,5 +15,6 @@
             android:layout_width="800dp"
             android:layout_height="200dp"
             app:stringContent="This is string content"
-            android:baselineAligned="false"/>
+            app:integerContent="0"
+    />
 </com.hihusky.lib.widget.CustomLinearLayout>

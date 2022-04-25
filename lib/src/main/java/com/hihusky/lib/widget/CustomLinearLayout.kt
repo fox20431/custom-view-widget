@@ -3,31 +3,20 @@ package com.hihusky.lib.widget
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
-import androidx.appcompat.widget.AppCompatTextView
+import android.widget.LinearLayout
 import com.hihusky.lib.util.heightScale
-import com.hihusky.lib.util.minScale
-
 import com.hihusky.lib.util.widthScale
 
-/**
- * 参考[https://developer.android.com/reference/android/view/View]
- */
-class CustomTextView: AppCompatTextView {
-
-    constructor(context: Context): super(context)
-    constructor(context: Context, attrs: AttributeSet): super(context, attrs)
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int): super(context, attrs, defStyleAttr)
+class CustomLinearLayout : LinearLayout {
+    constructor(context: Context?) : super(context)
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(
+        context, attrs, defStyleAttr, defStyleRes
+    )
 
     init {
-        textSize *= minScale
-    }
 
-    /**
-     * scale the font size if called the method modify size.
-     */
-    override fun setTextSize(unit: Int, size: Float) {
-        val scaledSize = size * minScale
-        super.setTextSize(unit, scaledSize)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -42,7 +31,7 @@ class CustomTextView: AppCompatTextView {
         super.onMeasure(scaledWidthMeasureSpec, scaledHeightMeasureSpec)
     }
 
-    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         val scaledLeft = (left * widthScale + 0.5f).toInt()
         val scaledTop = (top * heightScale + 0.5f).toInt()
         val scaledRight = (right * widthScale + 0.5f).toInt()
@@ -51,7 +40,6 @@ class CustomTextView: AppCompatTextView {
     }
 
     override fun onDraw(canvas: Canvas?) {
-        // canvas?.scale(scale.toFloat(), scale.toFloat())
         super.onDraw(canvas)
     }
 }
