@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.hihusky.lib.widget.CustomLinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/custom_linear_layout"
         android:layout_width="600dp"
         android:layout_height="960dp"
@@ -8,12 +8,18 @@
         android:orientation="vertical">
     <com.hihusky.lib.widget.CustomTextView
             android:id="@+id/custom_text_view"
-            android:layout_width="600dp"
+            android:layout_width="500dp"
             android:layout_height="200dp"
             android:textSize="200sp"
             android:text="hello"
-            android:layout_gravity="center"
+            android:layout_marginStart="100dp"
             android:background="#222222"
     />
+
+    <!--<com.hihusky.lib.widget.CustomView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        app:stringContent="hello"-->
+    <!--        app:integerContent="11"/>-->
 
 </com.hihusky.lib.widget.CustomLinearLayout>

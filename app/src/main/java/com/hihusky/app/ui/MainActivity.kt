@@ -1,12 +1,15 @@
-package com.hihusky.app
+package com.hihusky.app.ui
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.setPadding
+import com.hihusky.app.R
 import com.hihusky.lib.widget.CustomLinearLayout
 import com.hihusky.lib.widget.CustomTextView
 
-class MainActivity : AppCompatActivity(R.layout.activity_main) {
+class MainActivity : AppCompatActivity() {
 
     companion object {
         const val TAG = "mainTag"
@@ -17,6 +20,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
         customTextView = findViewById(R.id.custom_text_view)
         customLinearLayout = findViewById(R.id.custom_linear_layout)
     }
@@ -28,6 +33,20 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             customLinearLayout.getLocationOnScreen(customLinearLayoutLocation)
             val customTextViewLocation = IntArray(2)
             customLinearLayout.getLocationOnScreen(customTextViewLocation)
+
+            customTextView.paddingBottom
+
+            // // Padding
+            // customTextView.setPadding()
+            //
+            // // Margin
+            // val lp = LinearLayout.LayoutParams(
+            //     LinearLayout.LayoutParams.WRAP_CONTENT,
+            //     LinearLayout.LayoutParams.WRAP_CONTENT
+            // )
+            // lp.setMargins(10,10,10,10)
+            // customTextView.layoutParams = lp
+
             Log.d(
                 TAG, """
                     the metrics:
