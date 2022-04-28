@@ -2,9 +2,10 @@ package com.hihusky.app.ui
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.LinearLayout
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.setPadding
+import androidx.core.view.*
 import com.hihusky.app.R
 import com.hihusky.lib.widget.CustomLinearLayout
 import com.hihusky.lib.widget.CustomTextView
@@ -22,50 +23,47 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Get view
         customTextView = findViewById(R.id.custom_text_view)
         customLinearLayout = findViewById(R.id.custom_linear_layout)
+
+        // log the view info
+        showViewInfo(customTextView)
     }
 
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        super.onWindowFocusChanged(hasFocus)
-        if (hasFocus) {
-            val customLinearLayoutLocation = IntArray(2)
-            customLinearLayout.getLocationOnScreen(customLinearLayoutLocation)
-            val customTextViewLocation = IntArray(2)
-            customLinearLayout.getLocationOnScreen(customTextViewLocation)
+    /**
+     * show view info
+     * @param view this is shown.
+     */
+    private fun showViewInfo(view: View) {
 
-            customTextView.paddingBottom
-
-            // // Padding
-            // customTextView.setPadding()
-            //
-            // // Margin
-            // val lp = LinearLayout.LayoutParams(
-            //     LinearLayout.LayoutParams.WRAP_CONTENT,
-            //     LinearLayout.LayoutParams.WRAP_CONTENT
-            // )
-            // lp.setMargins(10,10,10,10)
-            // customTextView.layoutParams = lp
+        view.doOnPreDraw {
+            val viewLocation = IntArray(2)
+            it.getLocationOnScreen(viewLocation)
 
             Log.d(
                 TAG, """
-                    the metrics:
-                    custom linear view:
-                    width: ${customLinearLayout.width}
-                    height: ${customLinearLayout.height}
-                    the top coordinate: ${customLinearLayoutLocation[0]}
-                    the left coordinate: ${customLinearLayoutLocation[1]}
-                    
-                    custom text view: 
-                    width: ${customTextView.width}
-                    height: ${customTextView.height}
-                    text size: ${customTextView.textSize}
-                    the top coordinate: ${customTextViewLocation[0]}
-                    the left coordinate: ${customTextViewLocation[1]}
+                    the metrics(unit: px):
+                    width(without padding and margin): ${view.width}
+                    height(without padding and margin): ${view.height}
+                    padding(l t r b): ${view.paddingLeft} ${view.paddingTop} ${view.paddingRight} ${view.paddingBottom}
+                    margin(l t r b): ${view.marginLeft} ${view.marginTop} ${view.marginRight} ${view.marginBottom}
+                    the top coordinate: ${viewLocation[0]}
+                    the left coordinate: ${viewLocation[1]}
                 """.trimIndent()
             )
 
         }
     }
 
+    private fun printViewHierarchy(vg: ViewGroup, prefix: String) {
+        for (i in 0 until vg.childCount) {
+            val v: View = vg.getChildAt(i)
+            val desc = prefix + " | " + "[" + i + "/" + (vg.childCount - 1) + "] " + v.javaClass.simpleName + " " + v.id
+            Log.v("x", desc)
+            if (v is ViewGroup) {
+                printViewHierarchy(v, desc)
+            }
+        }
+    }
 }

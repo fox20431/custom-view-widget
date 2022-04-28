@@ -6,11 +6,13 @@
         android:layout_height="960dp"
         android:background="#666666"
         android:orientation="vertical">
+
     <com.hihusky.lib.widget.CustomTextView
             android:id="@+id/custom_text_view"
             android:layout_width="500dp"
             android:layout_height="200dp"
             android:textSize="200sp"
+            android:padding="10dp"
             android:text="hello"
             android:layout_marginStart="100dp"
             android:background="#222222"

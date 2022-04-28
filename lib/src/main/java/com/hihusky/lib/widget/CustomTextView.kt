@@ -4,11 +4,14 @@ import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.util.TypedValue
+import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import androidx.appcompat.widget.AppCompatTextView
-import com.hihusky.lib.util.ScalingFactor.Companion.heightScale
-import com.hihusky.lib.util.ScalingFactor.Companion.minScale
-import com.hihusky.lib.util.ScalingFactor.Companion.widthScale
-import kotlin.math.min
+import com.hihusky.lib.util.ScalingUtil.Companion.heightScale
+import com.hihusky.lib.util.ScalingUtil.Companion.minScale
+import com.hihusky.lib.util.ScalingUtil.Companion.scaleHorizontal
+import com.hihusky.lib.util.ScalingUtil.Companion.scaleVertical
+import com.hihusky.lib.util.ScalingUtil.Companion.widthScale
 
 /**
  * 参考[https://developer.android.com/reference/android/view/View]
@@ -22,17 +25,12 @@ class CustomTextView: AppCompatTextView {
     // execute after primary constructor
     init {
         setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
-        // Not working
-        // TODO 这里可以看看怎么运行过程中如何更改宽高
-        // width = (width * widthScale + 0.5F).toInt()
-        // height = (height * heightScale).toInt()
-        // val paddingLeft = (paddingLeft * heightScale + 0.5).toInt()
-        // val paddingTop = (paddingTop * heightScale + 0.5).toInt()
-        // val paddingRight = (paddingRight * heightScale + 0.5).toInt()
-        // val paddingBottom = (paddingBottom * heightScale + 0.5).toInt()
-        // setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom)
+        val scaledPaddingLeft = scaleHorizontal(paddingLeft)
+        val scaledPaddingTop = scaleVertical(paddingTop)
+        val scaledPaddingRight = scaleHorizontal(paddingRight)
+        val scaledPaddingBottom = scaleVertical(paddingBottom)
+        setPadding(scaledPaddingLeft, scaledPaddingTop, scaledPaddingRight, scaledPaddingBottom)
     }
-
 
     override fun setTextSize(size: Float) {
         val scaledSize = size * minScale
@@ -42,6 +40,19 @@ class CustomTextView: AppCompatTextView {
     override fun setTextSize(unit: Int, size: Float) {
         val scaledSize = size * minScale
         super.setTextSize(unit, scaledSize)
+    }
+
+    override fun setLayoutParams(params: ViewGroup.LayoutParams?) {
+        val marginLayoutParams = params as MarginLayoutParams
+        width = scaleHorizontal(width)
+        height = scaleVertical(height)
+        marginLayoutParams.marginStart = (marginLayoutParams.marginStart * widthScale + 0.5F).toInt()
+        marginLayoutParams.marginEnd = (marginLayoutParams.marginEnd * widthScale + 0.5F).toInt()
+        marginLayoutParams.leftMargin = (marginLayoutParams.leftMargin * widthScale + 0.5F).toInt()
+        marginLayoutParams.rightMargin *= (marginLayoutParams.rightMargin * widthScale + 0.5F).toInt()
+        marginLayoutParams.topMargin *= (marginLayoutParams.topMargin * heightScale + 0.5F).toInt()
+        marginLayoutParams.bottomMargin *= (marginLayoutParams.bottomMargin * heightScale + 0.5F).toInt()
+        super.setLayoutParams(marginLayoutParams)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -55,14 +66,6 @@ class CustomTextView: AppCompatTextView {
         val scaledHeightMeasureSpec = MeasureSpec.makeMeasureSpec(scaledHeightSize, heightMode)
         super.onMeasure(scaledWidthMeasureSpec, scaledHeightMeasureSpec)
     }
-
-    // override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-    //     val scaledLeft = (left * widthScale + 0.5f).toInt()
-    //     val scaledTop = (top * heightScale + 0.5f).toInt()
-    //     val scaledRight = (right * widthScale + 0.5f).toInt()
-    //     val scaledBottom = (bottom * heightScale + 0.5f).toInt()
-    //     super.onLayout(changed, scaledLeft, scaledTop, scaledRight, scaledBottom)
-    // }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
