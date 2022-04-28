@@ -4,16 +4,13 @@ import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.widget.LinearLayout
-import com.hihusky.lib.util.ScalingFactor.Companion.heightScale
-import com.hihusky.lib.util.ScalingFactor.Companion.widthScale
+import com.hihusky.lib.util.ScalingUtil.Companion.heightScale
+import com.hihusky.lib.util.ScalingUtil.Companion.widthScale
 
 class CustomLinearLayout : LinearLayout {
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(
-        context, attrs, defStyleAttr, defStyleRes
-    )
 
     init {}
 
