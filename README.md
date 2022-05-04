@@ -1,8 +1,38 @@
-# Android View Measure
+# Android View
 
-## Measure Specification
+视图的初始化、测量、布局、加载整个流程是在主线程完成的。
 
-Android引入测量规格（Measure Specification）概念，并为其在View中创建了MeasureSpec静态内部类，让我们去看看这个静态内部类。
+主线程的入口所在的类为 `ZygoteInit` （Zygote：合子/受精卵）。
+
+*并不知道为什么起这个名字，和当时生活状况有关，还是将程序拟人化了？*
+
+## Learn the view workflow
+
+### Initialization
+
+当视图的XML布局被创建后，无论是Activity还是Fragment都会传递根视图到 `LayoutInflater#inflate(int resource, ViewGroup root, boolean attachToRoot)` 中调用视图初始化，你可以通过 debug 调试验证这个结论。
+
+初始化的对象是根视图及其子视图，初始化要做的是将XML视图属性解析转换保存到实例的成员变量中，为后续作准备。
+
+### Measure
+
+由于view的attr中包含 `match_parent` 这种不可直观读取的长度，无法在初始化完成这个操作，需要对视图进行测量。
+
+虽然测量仍然发生在主线程，但过程和 `LayoutInflater` 没有关系，是系统的 Java 框架调用，此外布局和绘制也是这个道理。
+
+而这个测量遵循 `view tree` 结构，从根节点依次向下遍历测量，在遍历的过程中会传递宽和高的规格，这个会作为子视图的参考，类似于告诉子视图我把我的视图信息告诉你，你看着吧，规格在被定义为新的类 `View.MeasureSpec`，具体可见下文对 `MeasureSpec`的描述。
+
+`view tree` 的最终的子节点 `View` 会生成宽高存储到实例的成员变量中。
+
+*每次遍历应该都是从根视图向下传递，这个还真没有真真整整的探究过*
+
+*至于有些视图为什么测量多次，这个我没具体了解*
+
+#### Measure Specification
+
+Android引入测量规格（Measure Specification）概念，并为其在 `View` 中创建了 `MeasureSpec` 静态内部类，让我们去看看这个静态内部类。
+
+MeasureSpec用到了位运算，将Int类型拆分成高2位和低30位，并用掩码 `MODE_MASK` 来辅助这个位运算，高2位表示模式，低30位表示具体数值，有兴趣可以看下源代码。
 
 ```java
 /**
@@ -161,3 +191,14 @@ public static class MeasureSpec {
 }
 ```
 
+## Layout
+
+`onLayout` 在 `View` 类中默认为空，`onLayout` 的主要是由 `ViewGroup` 实现，控制子视图在自己视图上如何放置。
+
+`ViewGroup` 通过自己的逻辑计算出子视图左上右下位置，然后传递给子视图的 `onLayout` 方法，这个方法再把参数保存到本身实例成员变量中，这样就可以知道每个子视图在什么位置了。
+
+## Draw
+
+如果不是特殊需求，我个人认为很少会有人涉及到这个知识，他完成的就是在指定布局中绘制图像。
+
+*因为不需要，我也没仔细研究，但不得不说用 Canvas 画图是一个需要艺术和编程结合的东西。*
