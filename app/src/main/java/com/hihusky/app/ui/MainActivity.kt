@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.*
 import com.hihusky.app.R
+import com.hihusky.lib.util.ScalingUtil
 import com.hihusky.lib.widget.CustomLinearLayout
 import com.hihusky.lib.widget.CustomTextView
+import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,14 +23,23 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        ScalingUtil(resources.displayMetrics)
+
+        // change density to adapt UI
+        // resources.displayMetrics.apply {
+            // val targetDensity = widthPixels / 600F
+            // density = targetDensity
+            // scaledDensity = targetDensity
+            // densityDpi = (160 * scaledDensity).roundToInt()
+        // }
 
         // Get view
-        customTextView = findViewById(R.id.custom_text_view)
-        customLinearLayout = findViewById(R.id.custom_linear_layout)
+        // customTextView = findViewById(R.id.custom_text_view)
+        // customLinearLayout = findViewById(R.id.custom_linear_layout)
 
         // log the view info
-        showViewInfo(customTextView)
+        // showViewInfo(customTextView)
     }
 
     /**

@@ -202,3 +202,15 @@ public static class MeasureSpec {
 如果不是特殊需求，我个人认为很少会有人涉及到这个知识，他完成的就是在指定布局中绘制图像。
 
 *因为不需要，我也没仔细研究，但不得不说用 Canvas 画图是一个需要艺术和编程结合的东西。*
+
+
+## 其他的适配方案
+
+```kotlin
+resources.displayMetrics.apply {
+    val targetDensity = widthPixels / 600F
+    density = targetDensity
+    scaledDensity = targetDensity
+    densityDpi = (160 * scaledDensity).roundToInt()
+}
+```

@@ -2,6 +2,7 @@ package com.hihusky.lib.util
 
 import android.util.DisplayMetrics
 import kotlin.math.min
+import kotlin.math.roundToInt
 
 class ScalingUtil(displayMetrics: DisplayMetrics) {
 
@@ -11,11 +12,11 @@ class ScalingUtil(displayMetrics: DisplayMetrics) {
         var minScale = 1F
 
         fun scaleHorizontal(value: Int): Int {
-            return (value * widthScale + 0.5F).toInt()
+            return (value * widthScale).roundToInt()
         }
 
         fun scaleVertical(value: Int): Int {
-            return (value * heightScale + 0.5F).toInt()
+            return (value * heightScale).roundToInt()
         }
     }
 
@@ -30,5 +31,4 @@ class ScalingUtil(displayMetrics: DisplayMetrics) {
         heightScale = (displayMetrics.heightPixels / displayMetrics.density) / (referencedDeviceDisplayMetrics.heightPixels / referencedDeviceDisplayMetrics.density)
         minScale = min(widthScale, heightScale)
     }
-
 }

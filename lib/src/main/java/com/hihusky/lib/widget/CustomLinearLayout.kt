@@ -14,16 +14,33 @@ class CustomLinearLayout : LinearLayout {
 
     init {}
 
+    /**
+     * 重写“测量时”方法。
+     *
+     * 初始化通过标签元素的属性能完成绝大多数呈现试图所需要的参数，
+     * 但标签元素属性 `android:layout_width/layout_height` 与其他属性不同，
+     * 它的值能接受除长度之外的 `match_parent` 和 `wrap_content` 参数，
+     * 这两个参数是相对参数（相对父组件和子组件），这意味不能仅仅凭借着自身来决定这个参数，
+     * 所以需要通过 `measure` 从 `view tree` 的根节点便测量边向下传值，通知子 view 自身情况。
+     *
+     * 这里注意 `match_parent` 、 `wrap_content` 以及 ConstraintLayout 中的 0dp 的情况，
+     * 由于都是相对的参数，不应该缩放宽高。
+     *
+     * onMeasure 决定着视图的宽和高，因此需要在这里修改。
+     */
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val widthMode = MeasureSpec.getMode(widthMeasureSpec)
-        val heightMode = MeasureSpec.getMode(heightMeasureSpec)
-        val widthSize = MeasureSpec.getSize(widthMeasureSpec)
-        val heightSize = MeasureSpec.getSize(heightMeasureSpec)
-        val scaledWidthSize = (widthSize * widthScale + 0.5f).toInt()
-        val scaledHeightSize = (heightSize * heightScale + 0.5f).toInt()
-        val scaledWidthMeasureSpec = MeasureSpec.makeMeasureSpec(scaledWidthSize, widthMode)
-        val scaledHeightMeasureSpec = MeasureSpec.makeMeasureSpec(scaledHeightSize, heightMode)
-        super.onMeasure(scaledWidthMeasureSpec, scaledHeightMeasureSpec)
+        if (layoutParams.width != -1 && layoutParams.width != -2) {
+            val widthMode = MeasureSpec.getMode(widthMeasureSpec)
+            val heightMode = MeasureSpec.getMode(heightMeasureSpec)
+            val widthSize = MeasureSpec.getSize(widthMeasureSpec)
+            val heightSize = MeasureSpec.getSize(heightMeasureSpec)
+            val scaledWidthSize = (widthSize * widthScale + 0.5f).toInt()
+            val scaledHeightSize = (heightSize * heightScale + 0.5f).toInt()
+            val scaledWidthMeasureSpec = MeasureSpec.makeMeasureSpec(scaledWidthSize, widthMode)
+            val scaledHeightMeasureSpec = MeasureSpec.makeMeasureSpec(scaledHeightSize, heightMode)
+            super.onMeasure(scaledWidthMeasureSpec, scaledHeightMeasureSpec)
+        }
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
     }
 
     // Don't use it, or the child layout will overflow the screen border.

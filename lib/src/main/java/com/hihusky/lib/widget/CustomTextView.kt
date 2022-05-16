@@ -32,10 +32,6 @@ class CustomTextView: AppCompatTextView {
         setPadding(scaledPaddingLeft, scaledPaddingTop, scaledPaddingRight, scaledPaddingBottom)
     }
 
-    override fun setTextSize(size: Float) {
-        val scaledSize = size * minScale
-        super.setTextSize(scaledSize)
-    }
 
     override fun setTextSize(unit: Int, size: Float) {
         val scaledSize = size * minScale
@@ -56,15 +52,18 @@ class CustomTextView: AppCompatTextView {
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val widthMode = MeasureSpec.getMode(widthMeasureSpec)
-        val heightMode = MeasureSpec.getMode(heightMeasureSpec)
-        val widthSize = MeasureSpec.getSize(widthMeasureSpec)
-        val heightSize = MeasureSpec.getSize(heightMeasureSpec)
-        val scaledWidthSize = (widthSize * widthScale + 0.5f).toInt()
-        val scaledHeightSize = (heightSize * heightScale + 0.5f).toInt()
-        val scaledWidthMeasureSpec = MeasureSpec.makeMeasureSpec(scaledWidthSize, widthMode)
-        val scaledHeightMeasureSpec = MeasureSpec.makeMeasureSpec(scaledHeightSize, heightMode)
-        super.onMeasure(scaledWidthMeasureSpec, scaledHeightMeasureSpec)
+        if (layoutParams.width != -1 && layoutParams.width != -2) {
+            val widthMode = MeasureSpec.getMode(widthMeasureSpec)
+            val heightMode = MeasureSpec.getMode(heightMeasureSpec)
+            val widthSize = MeasureSpec.getSize(widthMeasureSpec)
+            val heightSize = MeasureSpec.getSize(heightMeasureSpec)
+            val scaledWidthSize = (widthSize * widthScale + 0.5f).toInt()
+            val scaledHeightSize = (heightSize * heightScale + 0.5f).toInt()
+            val scaledWidthMeasureSpec = MeasureSpec.makeMeasureSpec(scaledWidthSize, widthMode)
+            val scaledHeightMeasureSpec = MeasureSpec.makeMeasureSpec(scaledHeightSize, heightMode)
+            super.onMeasure(scaledWidthMeasureSpec, scaledHeightMeasureSpec)
+        }
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
     }
 
     override fun onDraw(canvas: Canvas?) {
